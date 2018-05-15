@@ -1,0 +1,8 @@
+
+
+###########################################################
+
+helloBar:
+  is: HelloComponent
+  parent: root
+  name: "bar!"
