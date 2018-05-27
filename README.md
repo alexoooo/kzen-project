@@ -8,10 +8,15 @@ Dev mode (two processes for client refresh, and server from IDE):
 >
 > > run KzenProjectApp from IDE
 
+Command-line dev (initial build for client, can be subsequently skipped):
+> ./gradlew build
+>
+> ./gradlew bootRun
+
 Dist:
 > ./gradlew assemble
 >
-> java -jar server/build/libs/kzen-project-jvm*.jar
+> java -jar kzen-project-jvm/build/libs/kzen-project-jvm-*.jar
 
 Web:
 > http://localhost:8080/

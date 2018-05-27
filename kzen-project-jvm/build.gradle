@@ -62,9 +62,9 @@ processResources {
 }
 
 
-jar {
-    enabled = true
-}
-bootJar {
-    classifier = 'boot'
-}
+//jar {
+//    enabled = true
+//}
+//bootJar {
+//    classifier = 'boot'
+//}
