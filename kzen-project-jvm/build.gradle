@@ -62,6 +62,9 @@ processResources {
 }
 
 
+bootRun {
+    systemProperties = System.properties
+}
 //jar {
 //    enabled = true
 //}

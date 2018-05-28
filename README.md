@@ -14,7 +14,7 @@ Command-line dev (initial build for client, can be subsequently skipped):
 > ./gradlew bootRun
 
 Dist:
-> ./gradlew assemble
+> ./gradlew build
 >
 > java -jar kzen-project-jvm/build/libs/kzen-project-jvm-*.jar
 
