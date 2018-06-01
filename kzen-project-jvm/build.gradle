@@ -56,7 +56,7 @@ compileTestKotlin {
 
 
 processResources {
-    from ('../client/build/dist/') {
+    from ('../kzen-project-js/build/dist/') {
         into 'public'
     }
 }

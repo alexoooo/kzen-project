@@ -45,7 +45,8 @@ class RestHandler {
         val allowedExtensions = listOf(
                 "html",
                 "js",
-                "css")
+                "css",
+                "ico")
     }
 
 
