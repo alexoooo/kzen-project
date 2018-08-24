@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.2.RELEASE'
+        springBootVersion = '2.0.3.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -27,7 +27,10 @@ dependencies {
 
     compile('org.springframework.boot:spring-boot-starter-webflux')
     compile('com.fasterxml.jackson.module:jackson-module-kotlin')
+
+    // TODO: figure out transitive dependencies from kzen-auo
     compile "com.google.guava:guava:25.0-jre"
+    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.14.0'
 
     compile group: 'tech.kzen.lib', name: 'kzen-lib-jvm', version: kzenLibVersion
     compile group: 'tech.kzen.auto', name: 'kzen-auto-jvm', version: kzenAutoVersion
