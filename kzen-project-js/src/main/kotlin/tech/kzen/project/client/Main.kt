@@ -1,6 +1,6 @@
 package tech.kzen.project.client
 
-import tech.kzen.lib.platform.ModuleRegistry
+import tech.kzen.lib.platform.client.ModuleRegistry
 
 
 fun main(args: Array<String>) {
