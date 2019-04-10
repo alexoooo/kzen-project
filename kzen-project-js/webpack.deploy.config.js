@@ -1,6 +1,4 @@
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require("path");
 
 const dist = path.resolve(__dirname, "build/dist");
@@ -31,17 +29,5 @@ module.exports = {
         ]
     },
     plugins: [
-        // new HtmlWebpackPlugin({
-        //     // TODO: do we have to include this?
-        //     title: 'Kzen Auto'
-        // })//,
-//        new UglifyJSPlugin({
-//            sourceMap: true,
-////            sourceMap: false,
-////            minimize: true,
-////            output: {
-////                comments: false
-////            }
-//        })
     ]
 };
