@@ -1,5 +1,9 @@
+var fs = require('fs');
+var gracefulFs = require('graceful-fs');
+gracefulFs.gracefulify(fs);
+
+
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const path = require("path");
 
@@ -17,6 +21,12 @@ module.exports = {
         path: dist,
         publicPath: ""
     },
+
+    mode: "development",
+    optimization: {
+        minimize: false
+    },
+
     watch: true,
     module: {
         rules: [{
@@ -36,10 +46,10 @@ module.exports = {
     },
     devtool: 'cheap-source-map',
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            filename: 'vendor.bundle.js'
-        }),
+//        new webpack.optimize.CommonsChunkPlugin({
+//            name: 'vendor',
+//            filename: 'vendor.bundle.js'
+//        }),
         new BrowserSyncPlugin({
             host: 'localhost',
             port: 8080,

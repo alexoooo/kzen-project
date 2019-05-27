@@ -1,3 +1,8 @@
+var fs = require('fs');
+var gracefulFs = require('graceful-fs');
+gracefulFs.gracefulify(fs);
+
+
 module.exports = function (config) {
     config.set({
         frameworks: ['mocha', 'browserify'],
@@ -19,7 +24,7 @@ module.exports = function (config) {
                 flags: ['--no-sandbox']
             }
         },
-        captureTimeout: 5000,
+        captureTimeout: 10000,
         singleRun: true,
         reportSlowerThan: 500,
         preprocessors: {

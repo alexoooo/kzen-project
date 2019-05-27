@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.1.4.RELEASE'
+        springBootVersion = '2.1.5.RELEASE'
     }
     repositories {
         mavenCentral()
@@ -30,6 +30,7 @@ dependencies {
 
     // TODO: figure out transitive dependencies from kzen-auo
     compile "com.google.guava:guava:$guavaVersion"
+    compile group: 'com.github.andrewoma.dexx', name: 'collection', version: dexxVersion
     compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: seleniumVersion
 
     compile group: 'tech.kzen.lib', name: 'kzen-lib-jvm', version: kzenLibVersion
@@ -65,12 +66,12 @@ processResources {
 }
 
 
-bootRun {
-    systemProperties = System.properties
+//bootRun {
+//    systemProperties = System.properties
+//}
+jar {
+    enabled = true
 }
-//jar {
-//    enabled = true
-//}
-//bootJar {
-//    classifier = 'boot'
-//}
+bootJar {
+    classifier = 'boot'
+}

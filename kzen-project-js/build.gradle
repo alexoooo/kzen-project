@@ -2,11 +2,6 @@ apply plugin: 'kotlin-platform-js'
 apply plugin: 'kotlin-dce-js'
 apply plugin: 'com.moowork.node'
 
-//repositories {
-//    maven { url "http://dl.bintray.com/kotlin/kotlin-dev" }
-//    maven { url "http://dl.bintray.com/kotlinx/kotlinx" }
-//    maven { url "http://dl.bintray.com/hypnosphi/kotlin-wrappers" }
-//}
 
 dependencies {
     expectedBy project(':kzen-project-common')
@@ -27,6 +22,7 @@ dependencies {
 
 
 node {
+    version = '12.3.1'
     download true
 }
 
