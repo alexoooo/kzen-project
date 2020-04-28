@@ -1,3 +1,3 @@
 package tech.kzen.project.common
 
-actual fun getAnswerBar() = 42
+//actual fun getAnswerBar() = 42

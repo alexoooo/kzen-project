@@ -1,12 +1,10 @@
 package tech.kzen.project.client
 
-import tech.kzen.lib.platform.client.ModuleRegistry
-
 
 fun main() {
-    val kzenProjectCommon = js("require('kzen-project-js.js')")
+//    val kzenProjectCommon = js("require('kzen-project-js.js')")
 //    console.log("kzenProjectCommon", kzenProjectCommon)
-    ModuleRegistry.add(kzenProjectCommon)
+//    ModuleRegistry.add(kzenProjectCommon)
 
 
     tech.kzen.auto.client.main()
