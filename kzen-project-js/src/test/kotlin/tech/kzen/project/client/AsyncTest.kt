@@ -3,7 +3,7 @@
 package tech.kzen.project.client
 
 import tech.kzen.project.common.getAnswerBar
-import kotlin.browser.window
+import kotlinx.browser.window
 import kotlin.js.Promise
 import kotlin.test.Ignore
 import kotlin.test.Test

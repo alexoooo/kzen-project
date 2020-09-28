@@ -1,7 +1,7 @@
 plugins {
     kotlin("multiplatform")
+    `maven-publish`
 }
-
 
 kotlin {
     jvm {}
@@ -23,15 +23,15 @@ kotlin {
         @Suppress("UNUSED_VARIABLE")
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains:kotlin-css:$kotlinxCssVersion")
+//                implementation(kotlin("stdlib-common"))
+                implementation("org.jetbrains:kotlin-css:$kotlinCssVersion")
 //                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serializationVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
-//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutinesVersion")
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
 
-                implementation("tech.kzen.lib:kzen-lib-common-metadata:$kzenLibVersion")
-                implementation("tech.kzen.auto:kzen-auto-common-metadata:$kzenAutoVersion")
+//                implementation("tech.kzen.lib:kzen-lib-common-metadata:$kzenLibVersion")
+                implementation("tech.kzen.lib:kzen-lib-common:$kzenLibVersion")
+                implementation("tech.kzen.auto:kzen-auto-common:$kzenLibVersion")
             }
         }
 
@@ -47,9 +47,9 @@ kotlin {
         @Suppress("UNUSED_VARIABLE")
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk8"))
+//                implementation(kotlin("stdlib-jdk8"))
                 implementation("ch.qos.logback:logback-classic:$logbackVersion")
-                implementation("org.jetbrains:kotlin-css-jvm:$kotlinxCssVersion")
+                implementation("org.jetbrains:kotlin-css-jvm:$kotlinCssVersion")
 //                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion")
                 implementation("tech.kzen.lib:kzen-lib-common-jvm:$kzenLibVersion")
                 implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
@@ -68,9 +68,7 @@ kotlin {
         @Suppress("UNUSED_VARIABLE")
         val jsMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-js"))
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serializationVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-js:$coroutinesVersion")
+//                implementation("org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:$serializationVersion")
                 implementation("tech.kzen.lib:kzen-lib-common-js:$kzenLibVersion")
                 implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
                 implementation(npm("immutable", immutaleJsVersion))

@@ -12,7 +12,8 @@ plugins {
 
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutinesVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
@@ -36,8 +37,8 @@ dependencies {
     implementation(group = "org.seleniumhq.selenium", name = "selenium-java", version = seleniumVersion)
     implementation(group = "org.apache.commons", name = "commons-compress", version = commonsCompressVersion)
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
+//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
 
     implementation("org.apache.commons:commons-csv:$commonsCsvVersion")
 }
@@ -47,7 +48,7 @@ tasks.withType<ProcessResources> {
     val jsProject = project(":kzen-project-js")
     val task = jsProject.tasks.getByName("browserProductionWebpack") as KotlinWebpack
 
-    from(task.destinationDirectory!!) {
+    from(task.destinationDirectory) {
         into("public")
     }
 
@@ -58,7 +59,7 @@ tasks.withType<ProcessResources> {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "13"
     }
 }
 
