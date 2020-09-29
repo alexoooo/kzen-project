@@ -11,7 +11,7 @@ const val coroutinesVersion = "1.3.9"
 const val wrapperKotlinVersion = "pre.116-kotlin-1.4.10"
 
 const val kzenLibVersion = "0.16.0"
-const val kzenAutoVersion = "0.16.0"
+const val kzenAutoVersion = "0.16.1"
 
 const val immutaleJsVersion = "3.8.2"
 const val dexxVersion = "0.7"
