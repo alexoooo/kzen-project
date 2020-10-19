@@ -10,8 +10,8 @@ const val coroutinesVersion = "1.3.9"
 //const val wrapperKotlinVersion = "pre.103-kotlin-1.3.72"
 const val wrapperKotlinVersion = "pre.116-kotlin-1.4.10"
 
-const val kzenLibVersion = "0.16.0"
-const val kzenAutoVersion = "0.16.1"
+const val kzenLibVersion = "0.17.1"
+const val kzenAutoVersion = "0.17.0"
 
 const val immutaleJsVersion = "3.8.2"
 const val dexxVersion = "0.7"
@@ -27,7 +27,7 @@ const val kotlinStyledVersion = "5.2.0-$wrapperKotlinVersion"
 const val kotlinExtensionsVersion = "1.0.1-$wrapperKotlinVersion"
 const val kotlinCssVersion = "1.0.0-$wrapperKotlinVersion"
 
-const val guavaVersion = "29.0-jre"
+const val guavaVersion = "30.0-jre"
 const val seleniumVersion = "3.141.59"
 const val commonsCompressVersion = "1.20"
 

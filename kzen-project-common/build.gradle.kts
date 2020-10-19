@@ -31,7 +31,7 @@ kotlin {
 
 //                implementation("tech.kzen.lib:kzen-lib-common-metadata:$kzenLibVersion")
                 implementation("tech.kzen.lib:kzen-lib-common:$kzenLibVersion")
-                implementation("tech.kzen.auto:kzen-auto-common:$kzenLibVersion")
+                implementation("tech.kzen.auto:kzen-auto-common:$kzenAutoVersion")
             }
         }
 
