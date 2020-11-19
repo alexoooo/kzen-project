@@ -10,8 +10,8 @@ const val coroutinesVersion = "1.3.9"
 //const val wrapperKotlinVersion = "pre.103-kotlin-1.3.72"
 const val wrapperKotlinVersion = "pre.116-kotlin-1.4.10"
 
-const val kzenLibVersion = "0.17.1"
-const val kzenAutoVersion = "0.17.0"
+const val kzenLibVersion = "0.18.0"
+const val kzenAutoVersion = "0.18.0"
 
 const val immutaleJsVersion = "3.8.2"
 const val dexxVersion = "0.7"
@@ -38,4 +38,4 @@ const val cropperJsVersion = "1.5.9"
 const val lodashVersion = "4.17.20"
 const val reactSelectVersion = "3.1.0"
 
-const val commonsCsvVersion = "1.8"
+//const val commonsCsvVersion = "1.8"
