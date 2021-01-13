@@ -10,10 +10,10 @@ import tech.kzen.auto.server.kzenAutoInit
 @EnableWebFlux
 @SpringBootApplication
 @ComponentScan(basePackages = ["tech.kzen.auto.server"])
-class KzenProjectApp
+class KzenProjectMain
 
 
 fun main(args: Array<String>) {
     kzenAutoInit()
-    runApplication<KzenProjectApp>(*args)
+    runApplication<KzenProjectMain>(*args)
 }

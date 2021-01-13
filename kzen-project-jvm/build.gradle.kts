@@ -1,5 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.springframework.boot.gradle.tasks.bundling.BootJar
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 
@@ -8,6 +8,7 @@ plugins {
     id("io.spring.dependency-management") version dependencyManagementVersion
     kotlin("jvm")
     kotlin("plugin.spring") version kotlinVersion
+    id("com.github.johnrengelman.shadow") version "6.1.0"
 }
 
 
@@ -68,7 +69,15 @@ tasks.getByName<Jar>("jar") {
     enabled = true
 }
 
-
-tasks.getByName<BootJar>("bootJar") {
-    archiveClassifier.set("boot")
+tasks.named<ShadowJar>("shadowJar") {
+    archiveBaseName.set("kzen-project")
+    isZip64 = true
+    mergeServiceFiles()
+    manifest {
+        attributes(mapOf("Main-Class" to "tech.kzen.project.server.KzenProjectMainKt"))
+    }
 }
+
+//tasks.getByName<BootJar>("bootJar") {
+//    archiveClassifier.set("boot")
+//}
