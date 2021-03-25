@@ -1,14 +1,16 @@
 const val kotlinVersion = "1.4.21"
 
-const val springBootVersion = "2.4.2"
+const val springBootVersion = "2.4.3"
 const val dependencyManagementVersion = "1.0.9.RELEASE"
 
 const val coroutinesVersion = "1.4.2"
 
 const val wrapperKotlinVersion = "pre.144-kotlin-1.4.21"
 
-const val kzenLibVersion = "0.21.0"
-const val kzenAutoVersion = "0.21.0"
+//const val kzenLibVersion = "0.21.0"
+//const val kzenAutoVersion = "0.21.0"
+const val kzenLibVersion = "0.22.0-SNAPSHOT"
+const val kzenAutoVersion = "0.22.0-SNAPSHOT"
 
 const val immutaleJsVersion = "3.8.2"
 const val dexxVersion = "0.7"
@@ -25,7 +27,7 @@ const val kotlinStyledVersion = "5.2.0-$wrapperKotlinVersion"
 const val kotlinExtensionsVersion = "1.0.1-$wrapperKotlinVersion"
 const val kotlinCssVersion = "1.0.0-$wrapperKotlinVersion"
 
-const val guavaVersion = "30.1-jre"
+const val guavaVersion = "30.1.1-jre"
 const val seleniumVersion = "3.141.59"
 const val commonsCompressVersion = "1.20"
 
