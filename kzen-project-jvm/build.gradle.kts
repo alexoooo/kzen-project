@@ -8,40 +8,23 @@ plugins {
     id("io.spring.dependency-management") version dependencyManagementVersion
     kotlin("jvm")
     kotlin("plugin.spring") version kotlinVersion
-    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("com.github.johnrengelman.shadow") version shadowVersion
 }
 
 
 dependencies {
-//    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:$coroutinesVersion")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
-    implementation("org.jetbrains:kotlin-css-jvm:1.0.0-$wrapperKotlinVersion")
-
     implementation(project(":kzen-project-common"))
 
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+//    implementation("org.jetbrains.kotlin:kotlin-reflect")
+//    implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
-    implementation("tech.kzen.lib:kzen-lib-common-jvm:$kzenLibVersion")
-    implementation("tech.kzen.lib:kzen-lib-jvm:$kzenLibVersion")
+//    implementation("tech.kzen.lib:kzen-lib-common-jvm:$kzenLibVersion")
+//    implementation("tech.kzen.lib:kzen-lib-jvm:$kzenLibVersion")
     implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
     implementation("tech.kzen.auto:kzen-auto-jvm:$kzenAutoVersion")
-
-    implementation("com.github.andrewoma.dexx:collection:$dexxVersion")
-
-    implementation(group = "com.google.guava", name = "guava", version = guavaVersion)
-    implementation(group = "org.seleniumhq.selenium", name = "selenium-java", version = seleniumVersion)
-    implementation(group = "org.apache.commons", name = "commons-compress", version = commonsCompressVersion)
-
-//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
-//    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutinesVersion")
-
-//    implementation("org.apache.commons:commons-csv:$commonsCsvVersion")
 }
 
 
@@ -59,9 +42,8 @@ tasks.withType<ProcessResources> {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        useIR = true
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "15"
+        jvmTarget = jvmTargetVersion
     }
 }
 
@@ -78,7 +60,3 @@ tasks.named<ShadowJar>("shadowJar") {
         attributes(mapOf("Main-Class" to "tech.kzen.project.server.KzenProjectMainKt"))
     }
 }
-
-//tasks.getByName<BootJar>("bootJar") {
-//    archiveClassifier.set("boot")
-//}
