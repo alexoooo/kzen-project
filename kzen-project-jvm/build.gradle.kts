@@ -15,14 +15,9 @@ plugins {
 dependencies {
     implementation(project(":kzen-project-common"))
 
-//    implementation("org.jetbrains.kotlin:kotlin-reflect")
-//    implementation("org.springframework.boot:spring-boot-starter-webflux")
-
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
-//    implementation("tech.kzen.lib:kzen-lib-common-jvm:$kzenLibVersion")
-//    implementation("tech.kzen.lib:kzen-lib-jvm:$kzenLibVersion")
     implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
     implementation("tech.kzen.auto:kzen-auto-jvm:$kzenAutoVersion")
 }

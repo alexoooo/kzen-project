@@ -40,7 +40,6 @@ kotlin {
         @Suppress("UNUSED_VARIABLE")
         val jvmMain by getting {
             dependencies {
-//                implementation("tech.kzen.lib:kzen-lib-common-jvm:$kzenLibVersion")
                 implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
             }
         }
@@ -57,7 +56,6 @@ kotlin {
         @Suppress("UNUSED_VARIABLE")
         val jsMain by getting {
             dependencies {
-//                implementation("tech.kzen.lib:kzen-lib-common-js:$kzenLibVersion")
                 implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
             }
         }
