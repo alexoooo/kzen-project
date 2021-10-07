@@ -12,6 +12,13 @@ plugins {
 }
 
 
+kotlin {
+    jvmToolchain {
+        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(jvmToolchainVersion))
+    }
+}
+
+
 dependencies {
     implementation(project(":kzen-project-common"))
 
@@ -37,7 +44,7 @@ tasks.withType<ProcessResources> {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
+        freeCompilerArgs += listOf("-Xjsr305=strict")
         jvmTarget = jvmTargetVersion
     }
 }
