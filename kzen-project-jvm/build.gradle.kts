@@ -1,14 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+//import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 
 plugins {
-    id("org.springframework.boot") version springBootVersion
-    id("io.spring.dependency-management") version dependencyManagementVersion
+//    id("org.springframework.boot") version springBootVersion
+//    id("io.spring.dependency-management") version dependencyManagementVersion
     kotlin("jvm")
-    kotlin("plugin.spring") version kotlinVersion
-    id("com.github.johnrengelman.shadow") version shadowVersion
+//    kotlin("plugin.spring") version kotlinVersion
+//    id("com.github.johnrengelman.shadow") version shadowVersion
 }
 
 
@@ -32,10 +32,10 @@ dependencies {
 
 tasks.withType<ProcessResources> {
     val jsProject = project(":kzen-project-js")
-    val task = jsProject.tasks.getByName("browserProductionWebpack") as KotlinWebpack
+    val task = jsProject.tasks.getByName("browserProductionWebpack") as org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
     from(task.destinationDirectory) {
-        into("public")
+        into("static")
     }
 
     dependsOn(task)
@@ -50,15 +50,29 @@ tasks.withType<KotlinCompile> {
 }
 
 
-tasks.getByName<Jar>("jar") {
-    enabled = true
+tasks.compileJava {
+    options.release.set(javaVersion)
 }
 
-tasks.named<ShadowJar>("shadowJar") {
-    archiveBaseName.set("kzen-project")
-    isZip64 = true
-    mergeServiceFiles()
+
+val dependenciesDir = "dependencies"
+task("copyDependencies", Copy::class) {
+    from(configurations.default).into("$buildDir/libs/$dependenciesDir")
+}
+
+
+tasks.getByName<Jar>("jar") {
+    val jvmProject = project(":kzen-project-jvm")
+    val copyDependenciesTask = jvmProject.tasks.getByName("copyDependencies") as Copy
+    dependsOn(copyDependenciesTask)
+
     manifest {
-        attributes(mapOf("Main-Class" to "tech.kzen.project.server.KzenProjectMainKt"))
+        attributes["Main-Class"] = "tech.kzen.project.server.KzenProjectMainKt"
+        attributes["Class-Path"] = configurations
+            .runtimeClasspath
+            .get()
+            .joinToString(separator = " ") { file ->
+                "$dependenciesDir/${file.name}"
+            }
     }
 }

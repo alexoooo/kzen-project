@@ -1,24 +1,28 @@
 package tech.kzen.project.server
 
-import org.springframework.boot.autoconfigure.SpringBootApplication
-import org.springframework.boot.runApplication
-import org.springframework.context.annotation.ComponentScan
-import org.springframework.web.reactive.config.EnableWebFlux
-import tech.kzen.auto.server.kzenAutoInit
 import tech.kzen.project.common.codegen.KzenProjectCommonModule
 import tech.kzen.project.server.codegen.KzenProjectJvmModule
+import tech.kzen.auto.server.KzenAutoConfig
+import tech.kzen.auto.server.kzenAutoMain
 
 
-@EnableWebFlux
-@SpringBootApplication
-@ComponentScan(basePackages = ["tech.kzen.auto.server"])
-class KzenProjectMain
+//---------------------------------------------------------------------------------------------------------------------
+const val kzenProjectJsModuleName = "kzen-project-js"
+//const val jsResourcePath = "$staticResourcePath/$jsFileName"
 
 
 fun main(args: Array<String>) {
+    kzenProjectInit()
+
+    kzenAutoMain(KzenAutoConfig(
+        jsModuleName = kzenProjectJsModuleName,
+        port = 8080,
+        host = "127.0.0.1"
+    ))
+}
+
+
+fun kzenProjectInit() {
     KzenProjectCommonModule.register()
     KzenProjectJvmModule.register()
-
-    kzenAutoInit()
-    runApplication<KzenProjectMain>(*args)
 }

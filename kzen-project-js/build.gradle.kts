@@ -1,18 +1,37 @@
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 plugins {
     id("org.jetbrains.kotlin.js")
 }
 
 
+val devMode = properties.containsKey("jsWatch")
+
+
 kotlin {
     js {
         useCommonJs()
-
-//        produceExecutable()
+        binaries.executable()
 
         browser {
-            webpackTask {
-                // TODO: hot-reload breaks?
-//                outputFileName = "index.js"
+            val webpackMode =
+                if (devMode) {
+                    KotlinWebpackConfig.Mode.DEVELOPMENT
+                }
+                else {
+                    KotlinWebpackConfig.Mode.PRODUCTION
+                }
+
+            commonWebpackConfig {
+                mode = webpackMode
+            }
+        }
+
+        if (devMode) {
+            compilations.all {
+                compileTaskProvider.configure {
+                    compilerOptions.freeCompilerArgs.add("-Xir-minimized-member-names=false")
+                }
             }
         }
     }
