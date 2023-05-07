@@ -1,20 +1,16 @@
+@file:Suppress("UnstableApiUsage")
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-//import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 
 plugins {
-//    id("org.springframework.boot") version springBootVersion
-//    id("io.spring.dependency-management") version dependencyManagementVersion
     kotlin("jvm")
-//    kotlin("plugin.spring") version kotlinVersion
-//    id("com.github.johnrengelman.shadow") version shadowVersion
+//    `maven-publish`
 }
 
 
 kotlin {
     jvmToolchain {
-        (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(jvmToolchainVersion))
+        languageVersion.set(JavaLanguageVersion.of(jvmToolchainVersion))
     }
 }
 
