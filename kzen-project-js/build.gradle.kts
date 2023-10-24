@@ -1,7 +1,8 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
 
 plugins {
-    id("org.jetbrains.kotlin.js")
+    kotlin("multiplatform")
 }
 
 
@@ -35,17 +36,38 @@ kotlin {
             }
         }
     }
+
+    sourceSets {
+        val jsMain by getting {
+            dependencies {
+                implementation(project(":kzen-project-common"))
+
+                implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
+                implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
+            }
+        }
+
+        val jsTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+    }
 }
 
 
-dependencies {
-    implementation(project(":kzen-project-common"))
-
-    implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
-    implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
-
-    testImplementation("org.jetbrains.kotlin:kotlin-test-js")
-}
+//dependencies {
+//    implementation(project(":kzen-project-common"))
+//
+//    implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
+//    implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
+//
+//    testImplementation("org.jetbrains.kotlin:kotlin-test-js")
+//}
 
 
 run {}
+
+
+// https://youtrack.jetbrains.com/issue/KT-52578/KJS-Gradle-KotlinNpmInstallTask-gradle-task-produces-unsolvable-warning-ignored-scripts-due-to-flag.
+yarn.ignoreScripts = false
