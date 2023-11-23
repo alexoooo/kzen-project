@@ -1,6 +1,7 @@
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
 
+
 plugins {
     kotlin("multiplatform")
 }
@@ -54,17 +55,6 @@ kotlin {
         }
     }
 }
-
-
-//dependencies {
-//    implementation(project(":kzen-project-common"))
-//
-//    implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
-//    implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
-//
-//    testImplementation("org.jetbrains.kotlin:kotlin-test-js")
-//}
-
 
 run {}
 

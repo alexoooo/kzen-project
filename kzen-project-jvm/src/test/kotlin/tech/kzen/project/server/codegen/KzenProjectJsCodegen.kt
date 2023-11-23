@@ -9,7 +9,7 @@ object KzenProjectJsCodegen {
     @JvmStatic
     fun main(args: Array<String>) {
         ModuleReflectionGenerator.generate(
-            Paths.get("kzen-project-js/src/main/kotlin"),
+            Paths.get("kzen-project-js/src/jsMain/kotlin"),
             ClassName("tech.kzen.project.client.codegen.KzenProjectJsModule"),
             KzenProjectCommonCodegen.commonSourceDir)
     }
