@@ -3,4 +3,4 @@ const val jvmTargetVersion = "21"
 const val javaVersion = 21
 const val jvmToolchainVersion = 21
 
-const val kzenAutoVersion = "0.28.0"
+const val kzenAutoVersion = "0.28.1"
