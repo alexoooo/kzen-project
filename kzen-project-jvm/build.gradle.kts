@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.gradle.kotlin.dsl.register
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -43,12 +44,12 @@ tasks.withType<ProcessResources> {
 }
 
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs += listOf("-Xjsr305=strict")
-        jvmTarget = jvmTargetVersion
-    }
-}
+//tasks.withType<KotlinCompile> {
+//    kotlinOptions {
+//        freeCompilerArgs += listOf("-Xjsr305=strict")
+//        jvmTarget = jvmTargetVersion
+//    }
+//}
 
 
 tasks.compileJava {
@@ -57,7 +58,7 @@ tasks.compileJava {
 
 
 val dependenciesDir = "dependencies"
-task("copyDependencies", Copy::class) {
+tasks.register<Copy>("copyDependencies") {
     from(configurations.runtimeClasspath)
         .into("${layout.buildDirectory.get().asFile}/libs/$dependenciesDir")
 }
