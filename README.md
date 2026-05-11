@@ -19,3 +19,6 @@ Dist:
 
 Web:
 > http://localhost:8080/
+
+Todo:
+- Automate creation of zip file in kzen-project-jvm/build/libs/
