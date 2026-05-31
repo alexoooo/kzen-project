@@ -4,3 +4,5 @@ const val javaVersion = 25
 const val jvmToolchainVersion = 25
 
 const val kzenAutoVersion = "0.29.1-SNAPSHOT"
+
+const val esbuildVersion = "0.25.12"

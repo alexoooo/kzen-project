@@ -1,7 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.gradle.kotlin.dsl.register
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
@@ -32,13 +31,11 @@ dependencies {
 tasks.withType<ProcessResources> {
     val jsProject = project(":kzen-project-js")
 
-    val browserDistributionTask = jsProject.tasks.getByName("jsBrowserDistribution")
-    dependsOn(browserDistributionTask)
+    // esbuild bundle (replaces the production webpack bundle) → build/dist/js/productionExecutable/
+    val bundleTask = jsProject.tasks.named("jsEsbuildBundle")
+    dependsOn(bundleTask)
 
-    val task = jsProject.tasks.getByName("jsBrowserProductionWebpack") as KotlinWebpack
-    dependsOn(task)
-
-    from(task.outputDirectory) {
+    from(jsProject.layout.buildDirectory.dir("dist/js/productionExecutable")) {
         into("static")
     }
 }
