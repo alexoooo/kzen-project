@@ -7,7 +7,12 @@ plugins {
 }
 
 
-val devMode = properties.containsKey("jsWatch")
+// Read via providers.gradleProperty (tracked by the configuration cache), NOT properties.containsKey
+// (reads the untracked legacy project-properties map). With containsKey, a cached config entry built
+// without -PjsWatch is silently reused on later -PjsWatch runs. kzen-project's dev loop uses
+// webpack-dev-server, but keep the read consistent so the production esbuild bundle is never built in
+// dev mode by a stale cache entry.
+val devMode = providers.gradleProperty("jsWatch").isPresent
 
 
 kotlin {
@@ -73,8 +78,14 @@ yarn.ignoreScripts = false
 // production webpack tasks are disabled below.
 
 val npmPackageName = "${rootProject.name}-${project.name}"
-val esbuildEntry = rootProject.layout.buildDirectory
-    .file("js/packages/$npmPackageName/kotlin/$npmPackageName.js")
+// The compileSync output dir holds one .js per Gradle module (kzen-auto-kzen-auto-js.js, kzen-lib-*.js,
+// stdlib, …); the entry only require()s them. Declare the whole dir as the task input — NOT just the
+// entry file — so a change in any dependency module (kzen-auto-js, kzen-lib) re-triggers the bundle.
+// With only inputs.file(entry), such a change lands in a sibling file, the entry stays byte-identical,
+// and jsEsbuildBundle wrongly stays UP-TO-DATE.
+val esbuildInputDir = rootProject.layout.buildDirectory
+    .dir("js/packages/$npmPackageName/kotlin")
+val esbuildEntry = esbuildInputDir.map { it.file("$npmPackageName.js") }
 val esbuildOutFile = layout.buildDirectory
     .file("dist/js/productionExecutable/${project.name}.js")
 
@@ -103,7 +114,7 @@ tasks.register<Exec>("jsEsbuildBundle") {
     // fail with "Could not resolve react". webpack's bundle task depended on kotlinNpmInstall for this.
     dependsOn(rootProject.tasks.named("kotlinNpmInstall"))
 
-    inputs.file(esbuildEntry)
+    inputs.dir(esbuildInputDir)
     outputs.file(esbuildOutFile)
 
     val invocation = buildList {
