@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
  */
 class AsyncTest {
     @Test
-    fun should_perform_asynchronous_test() = Promise<Unit> { resolve, _ ->
+    fun should_perform_asynchronous_test() = Promise { resolve, _ ->
         window.setInterval({
             assertEquals(42, getAnswerBar())
             // Make sure to call resolve to end the test:

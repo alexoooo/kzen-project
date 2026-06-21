@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     kotlin("multiplatform")
+    id("com.google.devtools.ksp")
 }
 
 
@@ -39,51 +40,57 @@ kotlin {
     }
 
     sourceSets {
-        @Suppress("UNUSED_VARIABLE")
-        val commonMain by getting {
-            dependencies {
+        commonMain.dependencies {
 //                implementation("tech.kzen.lib:kzen-lib-common:$kzenLibVersion")
-                implementation("tech.kzen.auto:kzen-auto-common:$kzenAutoVersion")
-            }
+            implementation("tech.kzen.auto:kzen-auto-common:$kzenAutoVersion")
         }
 
-        @Suppress("UNUSED_VARIABLE")
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test-common"))
+            implementation(kotlin("test-annotations-common"))
         }
 
 
-        @Suppress("UNUSED_VARIABLE")
-        val jvmMain by getting {
-            dependencies {
-                implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
-            }
+        jvmMain.dependencies {
+            implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
         }
 
-        @Suppress("UNUSED_VARIABLE")
-        val jvmTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
-            }
+        jvmTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(kotlin("test-junit"))
         }
 
 
-        @Suppress("UNUSED_VARIABLE")
-        val jsMain by getting {
-            dependencies {
-                implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
-            }
+        jsMain.dependencies {
+            implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
         }
 
-        @Suppress("UNUSED_VARIABLE")
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test-js"))
-            }
+        jsTest.dependencies {
+            implementation(kotlin("test-js"))
         }
     }
 }
+
+
+dependencies {
+    add("kspCommonMainMetadata", "tech.kzen.lib:kzen-lib-reflect-ksp:$kzenLibVersion")
+}
+
+
+ksp {
+    arg("kzen.reflect.moduleClassName", "tech.kzen.project.common.codegen.KzenProjectCommonModule")
+}
+
+
+// KSP commonMain output isn't picked up by per-target compile tasks automatically — same wiring as
+// kzen-lib-common / kzen-auto-common.
+kotlin.sourceSets.commonMain.configure {
+    kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
+}
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask<*>>().configureEach {
+    if (name != "kspCommonMainKotlinMetadata") {
+        dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+tasks.matching { it.name == "sourcesJar" || it.name.endsWith("SourcesJar") }
+    .configureEach { dependsOn("kspCommonMainKotlinMetadata") }

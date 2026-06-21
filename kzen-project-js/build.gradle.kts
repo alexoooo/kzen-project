@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.targets.js.yarn.yarn
 
 plugins {
     kotlin("multiplatform")
+    id("com.google.devtools.ksp")
 }
 
 
@@ -44,27 +45,33 @@ kotlin {
     }
 
     sourceSets {
-        val jsMain by getting {
-            dependencies {
-                implementation(project(":kzen-project-common"))
+        jsMain.dependencies {
+            implementation(project(":kzen-project-common"))
 
-                implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
-                implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
+            implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
+            implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
 
-                // esbuild bundler (replaces webpack for the production bundle) — see jsEsbuildBundle below
-                implementation(npm("esbuild", esbuildVersion))
-            }
+            // esbuild bundler (replaces webpack for the production bundle) — see jsEsbuildBundle below
+            implementation(npm("esbuild", esbuildVersion))
         }
 
-        val jsTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        jsTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
 
 run {}
+
+
+dependencies {
+    add("kspJs", "tech.kzen.lib:kzen-lib-reflect-ksp:$kzenLibVersion")
+}
+
+
+ksp {
+    arg("kzen.reflect.moduleClassName", "tech.kzen.project.client.codegen.KzenProjectJsModule")
+}
 
 
 // https://youtrack.jetbrains.com/issue/KT-52578/KJS-Gradle-KotlinNpmInstallTask-gradle-task-produces-unsolvable-warning-ignored-scripts-due-to-flag.

@@ -1,11 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.gradle.kotlin.dsl.register
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
     kotlin("jvm")
+    id("com.google.devtools.ksp")
 //    `maven-publish`
 }
 
@@ -20,11 +20,18 @@ kotlin {
 dependencies {
     implementation(project(":kzen-project-common"))
 
+    ksp("tech.kzen.lib:kzen-lib-reflect-ksp:$kzenLibVersion")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 
     implementation("tech.kzen.auto:kzen-auto-common-jvm:$kzenAutoVersion")
     implementation("tech.kzen.auto:kzen-auto-jvm:$kzenAutoVersion")
+}
+
+
+ksp {
+    arg("kzen.reflect.moduleClassName", "tech.kzen.project.server.codegen.KzenProjectJvmModule")
 }
 
 
