@@ -83,3 +83,15 @@ tasks.getByName<Jar>("jar") {
             }
     }
 }
+
+
+// Distribution zip: main.jar (the thin jar, Class-Path -> dependencies/) + dependencies/ at the
+//  root — the archetype layout the launcher's ProjectCreator unzips verbatim into a new project.
+tasks.register<Zip>("dist") {
+    dependsOn("jar", "copyDependencies")
+    archiveFileName.set("kzen-project-$version.zip")
+    destinationDirectory.set(layout.buildDirectory.dir("dist"))
+
+    from(tasks.named("jar")) { rename { "main.jar" } }
+    from(layout.buildDirectory.dir("libs/$dependenciesDir")) { into(dependenciesDir) }
+}
