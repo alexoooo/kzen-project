@@ -116,7 +116,12 @@ tasks.getByName<Jar>("jar") {
 
 
 // Distribution zip: main.jar (the thin jar, Class-Path -> dependencies/) + dependencies/ at the
-//  root — the archetype layout the launcher's ProjectCreator unzips verbatim into a new project.
+//  root, PLUS the editable seed notation as loose files under src/main/resources/notation/. The
+//  runtime reads/writes the `main/` document from DISK (the classpath copy of `main/` is excluded by
+//  design in KzenAutoContext), so the seed must travel on disk, not just baked inside main.jar. The
+//  launcher's ProjectCreator unzips this verbatim into a new project; GradleLocator then sees `./src`
+//  and scans ./src/main/resources/notation. Only `main/` (the editable seed) lives there — anything
+//  read-only belongs on the classpath, or it would double-serve.
 tasks.register<Zip>("dist") {
     dependsOn("jar", "copyDependencies")
     archiveFileName.set("kzen-project-$version.zip")
@@ -124,4 +129,5 @@ tasks.register<Zip>("dist") {
 
     from(tasks.named("jar")) { rename { "main.jar" } }
     from(layout.buildDirectory.dir("libs/$dependenciesDir")) { into(dependenciesDir) }
+    from("src/main/resources/notation") { into("src/main/resources/notation") }
 }
