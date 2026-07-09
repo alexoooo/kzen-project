@@ -1,6 +1,9 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.gradle.kotlin.dsl.register
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
 
 plugins {
@@ -35,12 +38,39 @@ ksp {
 }
 
 
+// Build stamp: version + build timestamp baked into the jar at /kzen-project-build.properties, read at
+// startup by BuildInfo and surfaced as logo hover text (see KzenProjectMain / kzen-auto's indexPage).
+// The resource name is project-specific because kzen-auto-jvm.jar (with its own build.properties) is on
+// the runtime classpath. Deliberately never up-to-date so every build re-stamps the moment of build.
+val buildInfoDir = layout.buildDirectory.dir("generated-resources")
+val generateBuildInfo = tasks.register("generateBuildInfo") {
+    val buildInfoFile = buildInfoDir.map { it.file("kzen-project-build.properties") }
+    val buildVersion = version.toString()
+    outputs.file(buildInfoFile)
+    outputs.upToDateWhen { false }
+    doLast {
+        val timestamp = OffsetDateTime.now()
+            .truncatedTo(ChronoUnit.SECONDS)
+            .format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+        buildInfoFile.get().asFile.apply {
+            parentFile.mkdirs()
+            writeText("version=$buildVersion\ntimestamp=$timestamp\n")
+        }
+    }
+}
+
+sourceSets.main {
+    resources.srcDir(buildInfoDir)
+}
+
+
 tasks.withType<ProcessResources> {
     val jsProject = project(":kzen-project-js")
 
     // esbuild bundle (replaces the production webpack bundle) → build/dist/js/productionExecutable/
     val bundleTask = jsProject.tasks.named("jsEsbuildBundle")
     dependsOn(bundleTask)
+    dependsOn(generateBuildInfo)
 
     from(jsProject.layout.buildDirectory.dir("dist/js/productionExecutable")) {
         into("static")
