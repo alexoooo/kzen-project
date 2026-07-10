@@ -47,7 +47,7 @@ Webpack at `:8080` proxies non-`*.js` requests to `:8081`; only JS bundles are s
 java -jar kzen-project-jvm/build/libs/kzen-project-jvm-*.jar
 ```
 
-The fat jar is what kzen-shell ultimately spawns at runtime (after being repackaged into `kzen-project-<v>.zip` — that zip is hand-built from `kzen-project-jvm/build/libs/` outputs, NOT produced by any Gradle task).
+The `main.jar` inside `kzen-project-<v>.zip` is what kzen-shell ultimately spawns at runtime. The `:kzen-project-jvm:dist` Gradle `Zip` task builds that zip — thin `main.jar` (`Class-Path` → `dependencies/`) + `dependencies/` + the loose seed notation under `src/main/resources/notation/` — into `build/dist/`. (Not wired into `build`.)
 
 ## Key directories
 
@@ -64,8 +64,8 @@ The fat jar is what kzen-shell ultimately spawns at runtime (after being repacka
 
 - **kzen-auto plugin publish dependency.** kzen-project depends on `kzen-auto-plugin` through the normal mavenLocal route (variant-suffix coords). After any change to `kzen-auto-plugin`, run `cd ../kzen-auto && ./gradlew :kzen-auto-plugin:publishToMavenLocal` before building kzen-project standalone.
 - **README class name is wrong.** Use `KzenProjectMain`, not `KzenProjectApp`. The umbrella AGENTS.md also propagates the stale name — fix it there if you're updating both.
-- **Dist zip is hand-built.** No Gradle task produces `kzen-project-<v>.zip`. To make a new dist for kzen-shell to consume, rebuild, rename the fat jar to `main.jar`, bundle with `dependencies/`, and zip.
-- **Cross-sibling version pin.** `buildSrc/.../Dependencies.kt` pins `kzenAutoVersion = "0.29.1-SNAPSHOT"`. Variant-suffix coords route through mavenLocal regardless of the composite, so this must match what kzen-auto has published.
+- **Dist zip is a Gradle task.** `:kzen-project-jvm:dist` produces `build/dist/kzen-project-<v>.zip` — thin `main.jar` (`Class-Path` → `dependencies/`) + `dependencies/` + the loose seed notation under `src/main/resources/notation/`. Not wired into `build`, so run it explicitly to make a new dist for kzen-shell to consume.
+- **Cross-sibling version pin.** `buildSrc/.../Dependencies.kt` pins `kzenAutoVersion` to the kzen-auto source version. Variant-suffix coords route through mavenLocal regardless of the composite, so this must match what kzen-auto has published.
 
 ## Pointers
 
