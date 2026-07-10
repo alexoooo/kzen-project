@@ -3,7 +3,7 @@ Office automation project
 
 Dev mode (one process for client refresh, and one server process from IDE):
 
-1) Run KzenProjectApp from IDE: --server.port=8081
+1) Run KzenProjectMain from IDE: --server.port=8081
     to start https://localhost:8081
     
 2) Run from terminal: `gradlew -t :kzen-project-js:run`
@@ -20,5 +20,5 @@ Dist:
 Web:
 > http://localhost:8080/
 
-Todo:
-- Automate creation of zip file in kzen-project-jvm/build/libs/
+Archetype zip (main.jar + dependencies/ + seed notation, into build/dist/):
+> ./gradlew :kzen-project-jvm:dist
