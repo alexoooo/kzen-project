@@ -1,0 +1,10 @@
+# Fixture for SampleExtensionTest.sampleGreetingExecutesThroughDetachedPath: a concrete instance of the
+# bundled SampleGreeting prototype.
+#
+# It lives under auto-common/ rather than test/ deliberately: ModelDetachedExecutor filters the graph
+# definition by AutoConventions.serverAllowed (kzen-base/, auto-common/, auto-jvm/, main/), so a test/-nested
+# object is invisible to the detached execution path and would fail with a bare "not found".
+
+SampleGreetingTestInstance:
+  is: SampleGreeting
+  message: "Hello from the sample"

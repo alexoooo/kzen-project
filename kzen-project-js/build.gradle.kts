@@ -51,6 +51,15 @@ kotlin {
             implementation("tech.kzen.auto:kzen-auto-common-js:$kzenAutoVersion")
             implementation("tech.kzen.auto:kzen-auto-js:$kzenAutoVersion")
 
+            // React + emotion wrappers so kzen-project-js can define its own client extensions (the sample
+            //  AttributeView). kzen-auto-js declares these `implementation`, so they don't leak transitively
+            //  onto this module's compile classpath — a downstream client-extension author adds them the same
+            //  way. Same wrappers version as kzen-auto-js (settings.gradle.kts catalog), so the bundle resolves
+            //  one react.
+            implementation(kotlinWrappers.react)
+            implementation(kotlinWrappers.reactDom)
+            implementation(kotlinWrappers.emotion.styled)
+
             // esbuild bundler (replaces webpack for the production bundle) — see jsEsbuildBundle below
             implementation(npm("esbuild", esbuildVersion))
         }

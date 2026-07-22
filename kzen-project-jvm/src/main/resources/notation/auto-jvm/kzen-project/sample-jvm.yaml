@@ -1,0 +1,31 @@
+# kzen-project's bundled sample notation, part 2 of 3 (server-side Script step archetype).
+# See auto-common/kzen-project/sample-common.yaml for why these documents live under the auto-* nestings.
+#
+# A step archetype is declared exactly ONCE in the whole graph — object names are graph-global, so a
+# duplicate declaration would resolve ambiguously and fail the whole-graph build. The production
+# analogues live in kzen-auto's notation/auto-jvm/script/script-jvm.yaml.
+
+# Uppercases the value of the step it references. Backed by an @Reflect class in kzen-project-jvm,
+# registered through the generated KzenProjectJvmModule (see KzenProjectMain) — kzen-auto knows
+# nothing about it and needed no edit.
+SampleUppercaseStep:
+  abstract: true
+  is: ScriptStep
+  class: tech.kzen.project.server.objects.SampleUppercaseStep
+  icon: "material-symbols:text-fields"
+  title: "Uppercase (sample)"
+  description: "Uppercase the text produced by another step"
+  input: ""
+  meta:
+    input:
+      is: ObjectLocation
+      by: Nominal
+      # The editor is load-bearing: an ObjectLocation reference with `by: Nominal` fails to define while
+      #  empty ("Empty object reference"), so a step that references another step MUST ship an editor to set
+      #  it, or a freshly-added instance is permanently broken with no way to wire it. SelectStepEditor is the
+      #  dropdown that picks a prior step's value (kzen-auto's DisplayValueStep uses the identical shape).
+      editor: SelectStepEditor
+      # Collapsed-card summary, rendered by a client class declared in auto-js/kzen-project/sample-js.yaml.
+      #  A cross-nesting reference like this is fine: the reference is by name against the whole notation,
+      #  while only INSTANTIATION is nesting-filtered (kzen-auto's own ControlStep does the same).
+      summary: SampleUppercaseSummaryView

@@ -1,0 +1,18 @@
+# kzen-project's bundled sample notation, part 3 of 3 (client-side display + ribbon palette).
+# See auto-common/kzen-project/sample-common.yaml for why these documents live under the auto-* nestings.
+
+# Collapsed-card summary for SampleUppercaseStep's `input` attribute, selected by the `summary:` tag on
+# that attribute's metadata (auto-jvm/kzen-project/sample-jvm.yaml). `class:` names the @Reflect inner
+# Wrapper — the graph instantiates the wrapper, which renders the React component.
+SampleUppercaseSummaryView:
+  is: AttributeView
+  class: tech.kzen.project.client.objects.SampleUppercaseSummaryView$Wrapper
+
+
+# Puts SampleUppercaseStep in the Script editor's palette. The ribbon is notation-driven and
+# document-agnostic: joining an existing kzen-auto RibbonGroup needs no kzen-auto edit, and the tool's
+# title/icon come from the delegate archetype's own `title:`/`icon:`.
+SampleUppercaseTool:
+  is: RibbonTool
+  parent: ScriptGroup_InputOutput
+  delegate: SampleUppercaseStep

@@ -1,0 +1,28 @@
+# kzen-project's bundled sample notation, part 1 of 3 (shared / multiplatform objects).
+#
+# WHY THIS LIVES UNDER auto-common/: the instantiation choke points filter by a FIXED set of document
+# nestings (AutoConventions.serverAllowed / clientUiAllowed in kzen-auto-common), so a downstream
+# document is only instantiable under kzen-base/, auto-common/, auto-jvm/, auto-js/ or main/. The
+# kzen-project/ subdirectory keeps our documents distinguishable within that shared namespace; object
+# names are graph-global, hence the Sample* prefix.
+#
+# These documents are READ-ONLY classpath resources (they ship inside main.jar and are NOT copied
+# loose into the dist zip — see the `dist` task in kzen-project-jvm/build.gradle.kts). Only the
+# editable seed under notation/main/ travels on disk.
+
+# An `is: Prototype` object is offered by the Custom document's "+ Add" picker anywhere in the graph
+# (CustomConventions.listPrototypes scans the whole notation), so this one sample makes the class
+# reachable from the UI with zero kzen-auto edits. `abstract: true` because a prototype is a template:
+# the picker creates a concrete `is: SampleGreeting` object from it.
+SampleGreeting:
+  is: Prototype
+  abstract: true
+  class: tech.kzen.project.common.objects.SampleGreeting
+  description: "Returns a fixed greeting message (detached execution)"
+  message: "Hello from kzen-project"
+  meta:
+    description: String
+    tags:
+      - detached
+    message:
+      is: String

@@ -1,0 +1,25 @@
+# Fixture for SampleExtensionTest.sampleStepRunsInScript: a Script whose middle step is
+# SampleUppercaseStep — kzen-project's own @Reflect Script step, declared in the bundled
+# auto-jvm/kzen-project/sample-jvm.yaml archetype. A TextLiteral "hello" feeds it, it uppercases to
+# "HELLO", and the Result step captures that as the Script's return value. Running end-to-end through
+# LogicCompiler with no kzen-auto edit is what proves the extension point actually works downstream.
+
+main:
+  is: Script
+  results:
+    main:
+      class: kotlin.String
+      generics: []
+      nullable: false
+
+main.steps/Greeting:
+  is: TextLiteralStep
+  value: hello
+
+main.steps/Uppercased:
+  is: SampleUppercaseStep
+  input: main.steps/Greeting
+
+main.steps/Result:
+  is: ResultStep
+  code: Uppercased
