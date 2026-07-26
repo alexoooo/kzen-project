@@ -45,7 +45,7 @@ Webpack at `:8080` proxies non-`*.js` requests to `:8081`; only JS bundles are s
 java -jar kzen-project-jvm/build/libs/kzen-project-jvm-*.jar
 ```
 
-The `main.jar` inside `kzen-project-<v>.zip` is what kzen-shell ultimately spawns at runtime. The `:kzen-project-jvm:dist` Gradle `Zip` task builds that zip — thin `main.jar` (`Class-Path` → `dependencies/`) + `dependencies/` + the loose seed notation under `src/main/resources/notation/main/` — into `build/dist/`. (Not wired into `build`.)
+The `:kzen-project-jvm:dist` Gradle `Zip` task builds `build/dist/kzen-project-<v>.zip` — the `main.jar` kzen-shell ultimately spawns, plus `dependencies/` and the loose seed notation from `src/main/resources/notation/main/`. Not wired into `build`, so run it explicitly to make a new dist. Zip layout details: [`../kzen/docs/RELEASING.md`](../kzen/docs/RELEASING.md).
 
 ## Key directories
 
@@ -63,15 +63,14 @@ The `KzenProjectCommonModule` / `KzenProjectJvmModule` / `KzenProjectJsModule` c
 
 ## Gotchas
 
-- **kzen-auto plugin publish dependency.** kzen-project depends on `kzen-auto-plugin` through the normal mavenLocal route (variant-suffix coords). After any change to `kzen-auto-plugin`, run `cd ../kzen-auto && ./gradlew :kzen-auto-plugin:publishToMavenLocal` before building kzen-project standalone.
-- **The `@Reflect` extension point works — via the samples (SH4).** To add your own object: write an `@Reflect` class in the relevant source set, declare it in bundled notation, done — KSP collects it into that source set's `KzenProject*Module` and the entry point's `register()` picks it up (`KzenProjectMain` registers Common + Jvm; JS `Main` registers Common + Js). Load-bearing rules:
+- **kzen-auto plugin publish dependency.** After any change to `kzen-auto-plugin`, run `cd ../kzen-auto && ./gradlew :kzen-auto-plugin:publishToMavenLocal` before building kzen-project standalone (see [`../kzen/AGENTS.md`](../kzen/AGENTS.md) Toolchain bumps).
+- **`@Reflect` extension point — load-bearing rules** (the how-to lives in [`README.md`](README.md) § Extending the template):
   - **The samples are load-bearing for compilation.** Each source set has exactly one sample `@Reflect` class (`SampleGreeting` common, `SampleUppercaseStep` jvm, `SampleUppercaseSummaryView` js). KSP suppresses the module object for a source set with zero `@Reflect` classes, so deleting a module's last `@Reflect` class un-emits its `KzenProject*Module` and breaks the corresponding main's `register()` line — a loud missing-symbol failure by design, not a bug. Keep ≥ 1 `@Reflect` class per source set.
   - **Bundled notation must live under `auto-common/`, `auto-jvm/`, or `auto-js/`** (a `kzen-project/` subdir keeps it distinguishable). The instantiation choke points filter by `AutoConventions.serverAllowed` / `clientUiAllowed` — fixed sets in kzen-auto-common — so a `project-*` nesting would need a kzen-auto change (an EXT candidate, out of scope). Object names are graph-global (hence the `Sample*` prefix) and archetypes are declared exactly once. Discovery off the classpath is automatic (`ClasspathNotationMedia`).
-  - **Dist ships the samples' notation on the classpath, not loose.** The `dist` task copies only `notation/main/` as loose disk seed; the `auto-*` sample docs are read-only and travel inside `main.jar`. Widening that copy to all of `notation/` would double-serve them as writable disk documents.
+  - **Dist ships the samples' notation on the classpath, not loose.** The `dist` task copies only `notation/main/` as loose disk seed; the `auto-*` sample docs are read-only and travel inside `main.jar`. Widening that copy to all of `notation/` would double-serve them as writable disk documents. The inverse also holds: the `main/` seed **must** travel loose — `KzenAutoContext` wires `ClasspathNotationMedia(exclude = ["main/"])` (intentional: kzen-auto-jvm.jar's own baked-in `main/` must not leak into every project), so a project's editable documents are read only from disk (`GradleLocator` scanning `./src/main/resources/notation` in the cwd); seed notation baked into `main.jar` is silently ignored and the launcher-created project opens blank.
   - **The JS sample needs the kotlin-wrappers on kzen-project-js's compile classpath** (react / reactDom / emotion.styled, added to `kzen-project-js/build.gradle.kts` + the catalog in `settings.gradle.kts`). kzen-auto-js declares them `implementation`, so they don't leak transitively — a downstream client-extension author adds them the same way.
-  - This is the **static** extension story (compile-time KSP + explicit `register()`). A **dynamic** plugin-JAR `ModuleReflection` registration cousin is a *pending decision* (EXT D1 / reflection-plan R5) — not an available mechanism yet.
-- **Dist zip is a Gradle task.** `:kzen-project-jvm:dist` produces `build/dist/kzen-project-<v>.zip` — thin `main.jar` (`Class-Path` → `dependencies/`) + `dependencies/` + the loose seed notation under `src/main/resources/notation/main/`. Not wired into `build`, so run it explicitly to make a new dist for kzen-shell to consume.
-- **Cross-sibling version pin.** `buildSrc/.../Dependencies.kt` pins `kzenAutoVersion` to the kzen-auto source version. Variant-suffix coords route through mavenLocal regardless of the composite, so this must match what kzen-auto has published.
+  - This is the **static** extension story (compile-time KSP + explicit `register()`). A **dynamic** plugin-JAR `ModuleReflection` registration cousin is a *pending decision* — not an available mechanism yet.
+- **Cross-sibling version pin.** `buildSrc/.../Dependencies.kt` pins `kzenLibVersion`/`kzenAutoVersion`; variant-suffix coords route through mavenLocal regardless of the composite, so they must match what the siblings have published (see [`../kzen/AGENTS.md`](../kzen/AGENTS.md)).
 
 ## Pointers
 
