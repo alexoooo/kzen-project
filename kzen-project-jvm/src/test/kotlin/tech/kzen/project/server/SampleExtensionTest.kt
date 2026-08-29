@@ -8,8 +8,9 @@ import tech.kzen.lib.common.exec.ExecutionRequest
 import tech.kzen.lib.common.exec.ExecutionSuccess
 import tech.kzen.lib.common.exec.RequestParams
 import tech.kzen.lib.common.exec.engine.Outcome
+import tech.kzen.lib.common.exec.data.binding.BindingName
+import tech.kzen.lib.common.exec.data.value.materializeJvm
 import tech.kzen.lib.common.exec.logic.run.model.LogicRunExecutionId
-import tech.kzen.lib.common.exec.tuple.TupleValue
 import tech.kzen.lib.common.model.document.DocumentPath
 import tech.kzen.lib.common.model.location.ObjectLocation
 import tech.kzen.lib.common.model.obj.ObjectPath
@@ -105,7 +106,12 @@ class SampleExtensionTest {
     @Test
     fun sampleStepRunsInScript() {
         val outcome = runScript("test/sample-step-test.yaml")
-        assertEquals("HELLO", assertIs<Outcome.Success>(outcome).value.mainComponentValue())
+        assertEquals(
+            "HELLO",
+            assertIs<Outcome.Success>(outcome)
+                .value
+                .requireValue(BindingName("main"))
+                .materializeJvm())
     }
 
 
@@ -127,7 +133,7 @@ class SampleExtensionTest {
             compilerServices())
 
         val engine = RunEngine(
-            logic, context.objectStableMapper.objectStableId(scriptLocation), TupleValue.empty)
+            logic, context.objectStableMapper.objectStableId(scriptLocation))
 
         return try {
             runBlocking {

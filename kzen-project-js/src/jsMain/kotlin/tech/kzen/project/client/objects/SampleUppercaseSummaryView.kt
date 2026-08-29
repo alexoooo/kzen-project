@@ -92,6 +92,9 @@ class SampleUppercaseSummaryView(
     }
 
 
+    override fun observedObjectLocation(): ObjectLocation = props.objectLocation
+
+
     override fun onClientState(clientState: ClientState) {
         val graphNotation = clientState.graphStructure().graphNotation
 
